@@ -1,0 +1,7 @@
+C:\code\Rosalind\Rosalind\Rosalind\bin\Release\Rosalind.exe.config
+C:\code\Rosalind\Rosalind\Rosalind\bin\Release\Rosalind.exe
+C:\code\Rosalind\Rosalind\Rosalind\bin\Release\Rosalind.pdb
+C:\code\Rosalind\Rosalind\Rosalind\obj\Release\Rosalind.csproj.CoreCompileInputs.cache
+C:\code\Rosalind\Rosalind\Rosalind\obj\Release\Rosalind.exe
+C:\code\Rosalind\Rosalind\Rosalind\obj\Release\Rosalind.pdb
+C:\code\Rosalind\Rosalind\Rosalind\obj\Release\Rosalind.csprojResolveAssemblyReference.cache

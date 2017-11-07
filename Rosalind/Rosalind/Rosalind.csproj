@@ -42,13 +42,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComplementingAStrandOfDna.cs" />
-    <Compile Include="CountingDnaNucleotides.cs" />
-    <Compile Include="CountingPointMutations.cs" />
-    <Compile Include="EnumeratingGeneOrders.cs" />
+    <Compile Include="Converters\FASTAToDictionary.cs" />
+    <Compile Include="Converters\RnaCodontoAA.cs" />
+    <Compile Include="Tier1-3\ComplementingAStrandOfDna.cs" />
+    <Compile Include="Tier1-3\CountingDnaNucleotides.cs" />
+    <Compile Include="Tier4\CountingPointMutations.cs" />
+    <Compile Include="Tier4\FindingAMotifInDna.cs" />
+    <Compile Include="Tier4\MendelsFirstLaw.cs" />
+    <Compile Include="Tier4\RabbitsAndRecurrenceRelations.cs" />
+    <Compile Include="Tier4\TranslatingRnaIntoProtein.cs" />
+    <Compile Include="Tier5\EnumeratingGeneOrders.cs" />
+    <Compile Include="Tier5\FindingASharedMotif.cs" />
+    <Compile Include="Tier5\RnaSplicing.cs" />
+    <Compile Include="Tier6\FindingASplicedMotif.cs" />
+    <Compile Include="Tier7\FindingASharedSplicedMotif - Copy.cs" />
+    <Compile Include="Tier7\FindingASharedSplicedMotif.cs" />
+    <Compile Include="Tier7\OrderingStringsOfVaryingLengthLexicographically.cs" />
+    <Compile Include="Tier6\EnumeratingKMersLexicographically.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TranscribingDnaIntoRna.cs" />
+    <Compile Include="Tier1-3\TranscribingDnaIntoRna.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
