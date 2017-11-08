@@ -55,8 +55,8 @@
     <Compile Include="Tier5\FindingASharedMotif.cs" />
     <Compile Include="Tier5\RnaSplicing.cs" />
     <Compile Include="Tier6\FindingASplicedMotif.cs" />
-    <Compile Include="Tier7\FindingASharedSplicedMotif - Copy.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotif.cs" />
+    <Compile Include="Tier7\FindingASharedSplicedMotifAlternative.cs" />
     <Compile Include="Tier7\OrderingStringsOfVaryingLengthLexicographically.cs" />
     <Compile Include="Tier6\EnumeratingKMersLexicographically.cs" />
     <Compile Include="Program.cs" />

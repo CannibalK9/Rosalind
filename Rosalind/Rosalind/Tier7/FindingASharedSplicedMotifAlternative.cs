@@ -15,12 +15,13 @@ namespace Rosalind.Tier7
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             for (int i = 0; i < dnaStrings[0].Length; i++)
             {
-                for (int j = 0; j < 3000; j++)
+                for (int j = 0; j < 2000; j++)
                 {
                     if (dnaStrings[0].Length - i > _result.Length)
                     {
-                        dod(new List<char>(dnaStrings[0]), new List<char>(dnaStrings[1]), i, true);
-                        dod(new List<char>(dnaStrings[0]), new List<char>(dnaStrings[1]), i, false);
+                        dod(new List<char>(dnaStrings[0]), new List<char>(dnaStrings[1]), i, 1);
+                        dod(new List<char>(dnaStrings[0]), new List<char>(dnaStrings[1]), i, 2);
+                        dod(new List<char>(dnaStrings[0]), new List<char>(dnaStrings[1]), i, 3);
                     }
                 }
             }
@@ -32,16 +33,25 @@ namespace Rosalind.Tier7
         private int _index;
         private Random rand = new Random();
 
-        public void dod(List<char> s1, List<char> s2, int index, bool one)
+        public void dod(List<char> s1, List<char> s2, int index, int aNumber)
         {
             int removed = 1;
 
             try
             {
-                if (one)
-                    s1.RemoveRange(0, index);
-                else
-                    s2.RemoveRange(0, index);
+                switch (aNumber)
+                {
+                    case 1:
+                        s1.RemoveRange(0, index);
+                        break;
+                    case 2:
+                        s2.RemoveRange(0, index);
+                        break;
+                    case 3:
+                        s1.RemoveRange(0, index);
+                        s2.RemoveRange(0, index);
+                        break;
+                }
             }
             catch
             {
@@ -51,7 +61,7 @@ namespace Rosalind.Tier7
             {
                 removed = 0;
 
-                for (int i = index; i < (s1.Count < s2.Count ? s1.Count : s2.Count); i++)
+                for (int i = 0; i < (s1.Count < s2.Count ? s1.Count : s2.Count); i++)
                 {
                     int s1Remove = 0;
                     int s2remove = 0;
@@ -69,15 +79,16 @@ namespace Rosalind.Tier7
                         s1Remove++;
                     }
 
-                    if (rand.Next(2) == 1)
+                    switch(rand.Next(2))
                     {
-                        s2.RemoveRange(i, s2remove);
-                        removed = s2remove;
-                    }
-                    else
-                    {
-                        s1.RemoveRange(i, s1Remove);
-                        removed = s1Remove;
+                        case 0:
+                            s2.RemoveRange(i, s2remove);
+                            removed = s2remove;
+                            break;
+                        case 1:
+                            s1.RemoveRange(i, s1Remove);
+                            removed = s1Remove;
+                            break;
                     }
                     break;
                 }
