@@ -2,6 +2,8 @@
 using Rosalind.Tier5;
 using Rosalind.Tier6;
 using Rosalind.Tier7;
+using Rosalind.Tier8;
+using Rosalind.Tier9;
 using System;
 
 namespace Rosalind
@@ -10,7 +12,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
-            new FindingASharedSplicedMotifAlternative();
+            new EditDistanceAlignment();
             Console.ReadKey();
         }
     }

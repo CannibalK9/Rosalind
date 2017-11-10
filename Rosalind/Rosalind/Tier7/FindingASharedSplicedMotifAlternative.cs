@@ -15,7 +15,7 @@ namespace Rosalind.Tier7
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             for (int i = 0; i < dnaStrings[0].Length; i++)
             {
-                for (int j = 0; j < 2000; j++)
+                //for (int j = 0; j < 500; j++)
                 {
                     if (dnaStrings[0].Length - i > _result.Length)
                     {
@@ -79,17 +79,28 @@ namespace Rosalind.Tier7
                         s1Remove++;
                     }
 
-                    switch(rand.Next(2))
+                    if (s2remove < s1Remove)
                     {
-                        case 0:
-                            s2.RemoveRange(i, s2remove);
-                            removed = s2remove;
-                            break;
-                        case 1:
-                            s1.RemoveRange(i, s1Remove);
-                            removed = s1Remove;
-                            break;
+                        s2.RemoveRange(i, s2remove);
+                        removed = s2remove;
                     }
+                    else
+                    {
+                        s1.RemoveRange(i, s1Remove);
+                        removed = s1Remove;
+                    }
+
+                    //switch(rand.Next(2))
+                    //{
+                    //    case 0:
+                    //        s2.RemoveRange(i, s2remove);
+                    //        removed = s2remove;
+                    //        break;
+                    //    case 1:
+                    //        s1.RemoveRange(i, s1Remove);
+                    //        removed = s1Remove;
+                    //        break;
+                    //}
                     break;
                 }
             }
