@@ -13,33 +13,71 @@ namespace Rosalind.Tier9
         public EditDistanceAlignment()
         {
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
-
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
-
-            int changeCount = Distance(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
 
             var s1Chars = new List<char>(dnaStrings[0]);
             var s2Chars = new List<char>(dnaStrings[1]);
 
-            int i = pairs.Last().Key.Key;
-            int j = pairs.Last().Key.Value;
-            KeyValuePair<int, int> curr = new KeyValuePair<int, int>(i, j);
 
-            AddHyphens(pairs, curr, s1Chars, s2Chars);
+            int changeCount = Distance(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
 
-            while (s1Chars.Count < s2Chars.Count)
-            {
-                s1Chars.Insert(0, '-');
-            }
-
-            while (s1Chars.Count > s2Chars.Count)
-            {
-                s2Chars.Insert(0, '-');
-            }
+            AddHyphens(s1Chars, s2Chars, pairs, pairs.Last().Key);
 
             Console.WriteLine(changeCount);
             Console.WriteLine(string.Join("", s1Chars));
             Console.WriteLine(string.Join("", s2Chars));
+        }
+
+        private void AddHyphens(List<char> c1, List<char> c2, Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index)
+        {
+            var diag = new KeyValuePair<int, int>(index.Key - 1, index.Value - 1);
+            var up = new KeyValuePair<int, int>(index.Key, index.Value - 1);
+            var left = new KeyValuePair<int, int>(index.Key - 1, index.Value);
+
+            var diagValue = pairs.Keys.Contains(diag) ? pairs[diag] : new KeyValuePair<int, int>(10000, 10000);
+            var upValue = pairs.Keys.Contains(up) ? pairs[up] : new KeyValuePair<int, int>(10000, 10000);
+            var leftValue = pairs.Keys.Contains(left) ? pairs[left] : new KeyValuePair<int, int>(10000, 10000);
+
+            if (diagValue.Key != 10000 && diagValue.Key <= upValue.Key && diagValue.Key <= leftValue.Key)
+            {
+                if (diagValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (diagValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, diag);
+            }
+            else if (upValue.Key != 10000 && upValue.Key <= leftValue.Key)
+            {
+                if (upValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (upValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, up);
+            }
+            else if (leftValue.Key != 10000)
+            {
+                if (leftValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (leftValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, left);
+            }
+            else if (index.Key > 0 || index.Value > 0)
+            {
+                if (index.Value > 0)
+                {
+                    c1.Insert(index.Key, '-');
+                    AddHyphens(c1, c2, pairs, left);
+                }
+                else if (index.Key > 0)
+                {
+                    c2.Insert(index.Value, '-');
+                    AddHyphens(c1, c2, pairs, up);
+                }
+            }
         }
 
         private void AddHyphens(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> pair, List<char> s1Chars, List<char> s2Chars)
@@ -108,7 +146,12 @@ namespace Rosalind.Tier9
                     int changeCount = 1 + Distance(s1, s2, s1Length - 1, s2Length - 1, pairs);
 
                     int d = Math.Min(s1Count, Math.Min(s2Count, changeCount));
-                    pairs.Add(pair, new KeyValuePair<int, int>(d, changeCount <= s1Count && changeCount <= s2Count ? 0 : s1Count < s2Count ? 2 : 1));
+                    int value = 0;
+
+                    if (changeCount > s1Count || changeCount > s2Count)
+                        value = s1Count > s2Count ? 1 : 2;
+
+                    pairs.Add(pair, new KeyValuePair<int, int>(d, value));
                     return d;
                 }
             }
