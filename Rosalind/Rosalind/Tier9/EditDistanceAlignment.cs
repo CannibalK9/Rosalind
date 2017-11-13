@@ -13,27 +13,74 @@ namespace Rosalind.Tier9
         public EditDistanceAlignment()
         {
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
-
-            var s1Hyphens = new List<int>();
-            var s2Hyphens = new List<int>();
-
-            int changeCount = Distance(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1,s1Hyphens, s2Hyphens, new Dictionary<KeyValuePair<int, int>, int>());
+            var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
 
             var s1Chars = new List<char>(dnaStrings[0]);
             var s2Chars = new List<char>(dnaStrings[1]);
 
-            foreach (int hyphenIndex in s1Hyphens)
-                s1Chars.Insert(hyphenIndex, '-');
 
-            foreach (int hyphenIndex in s2Hyphens)
-                s2Chars.Insert(hyphenIndex, '-');
+            int changeCount = Distance(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
+
+            AddHyphens(s1Chars, s2Chars, pairs, pairs.Last().Key);
 
             Console.WriteLine(changeCount);
             Console.WriteLine(string.Join("", s1Chars));
             Console.WriteLine(string.Join("", s2Chars));
         }
 
-        private int Distance(string s1, string s2, int s1Length, int s2Length, List<int>s1Hyphens, List<int>s2Hyphens, Dictionary<KeyValuePair<int,int>,int> pairs)
+        private void AddHyphens(List<char> c1, List<char> c2, Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index)
+        {
+            var diag = new KeyValuePair<int, int>(index.Key - 1, index.Value - 1);
+            var up = new KeyValuePair<int, int>(index.Key, index.Value - 1);
+            var left = new KeyValuePair<int, int>(index.Key - 1, index.Value);
+
+            var diagValue = pairs.Keys.Contains(diag) ? pairs[diag] : new KeyValuePair<int, int>(10000, 10000);
+            var upValue = pairs.Keys.Contains(up) ? pairs[up] : new KeyValuePair<int, int>(10000, 10000);
+            var leftValue = pairs.Keys.Contains(left) ? pairs[left] : new KeyValuePair<int, int>(10000, 10000);
+
+            if (diagValue.Key != 10000 && diagValue.Key <= upValue.Key && diagValue.Key <= leftValue.Key)
+            {
+                if (diagValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (diagValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, diag);
+            }
+            else if (upValue.Key != 10000 && upValue.Key <= leftValue.Key)
+            {
+                if (upValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (upValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, up);
+            }
+            else if (leftValue.Key != 10000)
+            {
+                if (leftValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (leftValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, left);
+            }
+            else if (index.Key > 0 || index.Value > 0)
+            {
+                if (index.Value > 0)
+                {
+                    c1.Insert(index.Key, '-');
+                    AddHyphens(c1, c2, pairs, left);
+                }
+                else if (index.Key > 0)
+                {
+                    c2.Insert(index.Value, '-');
+                    AddHyphens(c1, c2, pairs, up);
+                }
+            }
+        }
+
+        private int Distance(string s1, string s2, int s1Length, int s2Length, Dictionary<KeyValuePair<int,int>,KeyValuePair<int, int>> pairs)
         {
             var pair = new KeyValuePair<int, int>(s1Length, s2Length);
 
@@ -44,34 +91,31 @@ namespace Rosalind.Tier9
             else if (s1[s1Length] == s2[s2Length])
             {
                 if (pairs.ContainsKey(pair))
-                    return pairs[pair];
+                    return pairs[pair].Key;
                 else
                 {
-                    int d = Distance(s1, s2, s1Length - 1, s2Length - 1, s1Hyphens, s2Hyphens, pairs);
-                    pairs.Add(pair, d);
+                    int d = Distance(s1, s2, s1Length - 1, s2Length - 1, pairs);
+                    pairs.Add(pair, new KeyValuePair<int, int>(d, 0));
                     return d;
                 }
             }
             else
             {
                 if (pairs.ContainsKey(pair))
-                    return pairs[pair];
+                    return pairs[pair].Key;
                 else
                 {
-                    int s1Count = 1 + Distance(s1, s2, s1Length - 1, s2Length, s1Hyphens, s2Hyphens, pairs);
-                    int s2Count = 1 + Distance(s1, s2, s1Length, s2Length - 1, s1Hyphens, s2Hyphens, pairs);
-                    int changeCount = 1 + Distance(s1, s2, s1Length - 1, s2Length - 1, s1Hyphens, s2Hyphens, pairs);
-
-                    if (s1Count < changeCount && s2Count < changeCount)
-                    {
-                        if (s1Count < s2Count)
-                            s1Hyphens.Add(s1Length - 1);
-                        else
-                            s2Hyphens.Add(s2Length - 1);
-                    }
+                    int s1Count = 1 + Distance(s1, s2, s1Length - 1, s2Length, pairs);
+                    int s2Count = 1 + Distance(s1, s2, s1Length, s2Length - 1, pairs);
+                    int changeCount = 1 + Distance(s1, s2, s1Length - 1, s2Length - 1, pairs);
 
                     int d = Math.Min(s1Count, Math.Min(s2Count, changeCount));
-                    pairs.Add(pair, d);
+                    int value = 0;
+
+                    if (changeCount > s1Count || changeCount > s2Count)
+                        value = s1Count > s2Count ? 1 : 2;
+
+                    pairs.Add(pair, new KeyValuePair<int, int>(d, value));
                     return d;
                 }
             }
