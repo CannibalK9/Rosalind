@@ -1,4 +1,5 @@
-﻿using Rosalind.Tier4;
+﻿using Rosalind.Tier10;
+using Rosalind.Tier4;
 using Rosalind.Tier5;
 using Rosalind.Tier6;
 using Rosalind.Tier7;
@@ -12,6 +13,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
+            new CountingOptimalAlignments();
             new EditDistanceAlignment();
             Console.ReadKey();
         }
