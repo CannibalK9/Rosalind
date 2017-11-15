@@ -14,7 +14,7 @@ namespace Rosalind
         static void Main(string[] args)
         {
             new CountingOptimalAlignments();
-            new EditDistanceAlignment();
+            //new EditDistanceAlignment();
             Console.ReadKey();
         }
     }

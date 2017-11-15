@@ -15,15 +15,19 @@ namespace Rosalind.Tier10
         {
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
-            int changeCount = EditDistanceAlignment.GenerateAlignmentPathPairs(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
+            _s1 = dnaStrings[0];
+            _s2 = dnaStrings[1];
+            int changeCount = EditDistanceAlignment.GenerateAlignmentPathPairs(_s1, _s2, _s1.Length - 1, _s2.Length - 1, pairs);
 
-            DisplayPaths.Display(pairs);
+            //DisplayPaths.Display(pairs);
 
             CountPaths(pairs, pairs.Last().Key);
             Console.WriteLine(_count);
         }
 
         private int _count;
+        private string _s1;
+        private string _s2;
 
         private void CountPaths(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index)
         {
@@ -32,6 +36,8 @@ namespace Rosalind.Tier10
                 _count++;
                 return;
             }
+
+            int currentIndex = pairs[index].Key;
 
             var diag = new KeyValuePair<int, int>(index.Key - 1, index.Value - 1);
             var up = new KeyValuePair<int, int>(index.Key, index.Value - 1);
@@ -43,13 +49,13 @@ namespace Rosalind.Tier10
 
             int lowest = Math.Min(diagValue.Key, Math.Min(upValue.Key, leftValue.Key));
 
-            if (diagValue.Key == lowest && diagValue.Key != 10000)
+            if (diagValue.Key < currentIndex || (diagValue.Key == currentIndex && _s1[index.Key] == _s2[index.Value]))
                 CountPaths(pairs, diag);
 
-            if (upValue.Key == lowest && upValue.Key != 10000)
+            if (upValue.Key < currentIndex)
                 CountPaths(pairs, up);
 
-            if (leftValue.Key == lowest && leftValue.Key != 10000)
+            if (leftValue.Key < currentIndex)
                 CountPaths(pairs, left);
         }
     }
