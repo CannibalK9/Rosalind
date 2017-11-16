@@ -7,30 +7,34 @@ using System.Linq;
 
 namespace Rosalind.Tier10
 {
-    public class CountingOptimalAlignments
+    public class GlobalAlignmentWithScoringMatrix
     {
-        //http://rosalind.info/problems/ctea/
+        //http://rosalind.info/problems/glob/
 
-        public CountingOptimalAlignments()
+        public GlobalAlignmentWithScoringMatrix()
         {
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
             _s1 = dnaStrings[0];
             _s2 = dnaStrings[1];
             int changeCount = EditDistanceAlignment.GenerateAlignmentPathPairs(_s1, _s2, _s1.Length - 1, _s2.Length - 1, pairs);
+            var morePairs = new Dictionary<KeyValuePair<int, int>, int>();
 
-            ulong count = CountPaths(pairs, pairs.Last().Key, new Dictionary<KeyValuePair<int, int>, ulong>());
-            Console.WriteLine(count);
+            CountPaths(pairs, pairs.Last().Key, morePairs);
+            Console.WriteLine(morePairs.Values.Max());
         }
 
         private string _s1;
         private string _s2;
+        private const int _gapPenalty = 5;
 
-        private ulong CountPaths(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index, Dictionary<KeyValuePair<int, int>, ulong> morePairs)
+        private int CountPaths(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index, Dictionary<KeyValuePair<int, int>, int> morePairs)
         {
-            if (index.Key + index.Value <= 1)
+            if (index.Key == 0 && index.Value == 0)
             {
-                return 1;
+                int score = ScoringMatrices.BLOSUM62(_s1[index.Key], _s2[index.Value]);
+                morePairs.Add(index, score);
+                return score;
             }
             else if (morePairs.ContainsKey(index))
             {
@@ -38,8 +42,6 @@ namespace Rosalind.Tier10
             }
             else
             {
-                ulong count = 0;
-
                 int currentIndex = pairs[index].Key;
                 int currentValue = pairs[index].Value;
 
@@ -51,16 +53,27 @@ namespace Rosalind.Tier10
                 var upValue = pairs.Keys.Contains(up) ? pairs[up] : new KeyValuePair<int, int>(10000, 10000);
                 var leftValue = pairs.Keys.Contains(left) ? pairs[left] : new KeyValuePair<int, int>(10000, 10000);
 
+                var list = new List<int>();
+
                 if ((diagValue.Key == currentIndex - 1 && _s1[index.Key] != _s2[index.Value]) || (diagValue.Key == currentIndex && _s1[index.Key] == _s2[index.Value]))
-                    count += CountPaths(pairs, diag, morePairs) % 134217727;
-
+                {
+                    list.Add(ScoringMatrices.BLOSUM62(_s1[index.Key], _s2[index.Value]) + CountPaths(pairs, diag, morePairs));
+                }
                 if (upValue.Key == currentIndex - 1 && currentValue != 0)
-                    count += CountPaths(pairs, up, morePairs) % 134217727;
-
+                {
+                    list.Add(-_gapPenalty + CountPaths(pairs, up, morePairs));
+                }
                 if (leftValue.Key == currentIndex - 1 && currentValue != 0)
-                    count += CountPaths(pairs, left, morePairs) % 134217727;
+                {
+                    list.Add(-_gapPenalty + CountPaths(pairs, left, morePairs));
+                }
 
-                morePairs.Add(index, count);
+                int count = 0;
+                if (list.Any())
+                {
+                    count = list.Max();
+                    morePairs.Add(index, count);
+                }
 
                 return count;
             }
