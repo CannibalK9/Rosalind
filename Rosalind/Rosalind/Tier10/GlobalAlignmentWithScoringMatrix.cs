@@ -18,10 +18,9 @@ namespace Rosalind.Tier10
             _s1 = dnaStrings[0];
             _s2 = dnaStrings[1];
             int changeCount = EditDistanceAlignment.GenerateAlignmentPathPairs(_s1, _s2, _s1.Length - 1, _s2.Length - 1, pairs);
-            var morePairs = new Dictionary<KeyValuePair<int, int>, int>();
 
-            CountPaths(pairs, pairs.Last().Key, morePairs);
-            Console.WriteLine(morePairs.Values.Max());
+            int count = CountPaths(pairs, pairs.Last().Key, new Dictionary<KeyValuePair<int, int>, int>());
+            Console.WriteLine(count);
         }
 
         private string _s1;
@@ -30,13 +29,7 @@ namespace Rosalind.Tier10
 
         private int CountPaths(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index, Dictionary<KeyValuePair<int, int>, int> morePairs)
         {
-            if (index.Key == 0 && index.Value == 0)
-            {
-                int score = ScoringMatrices.BLOSUM62(_s1[index.Key], _s2[index.Value]);
-                morePairs.Add(index, score);
-                return score;
-            }
-            else if (morePairs.ContainsKey(index))
+            if (morePairs.ContainsKey(index))
             {
                 return morePairs[index];
             }
@@ -69,12 +62,25 @@ namespace Rosalind.Tier10
                 }
 
                 int count = 0;
+                
+                if (index.Key == 0 || index.Value == 0)
+                {
+                    List<int> list2 = new List<int>();
+                    for (int i = 0; i <= index.Key; i++)
+                    {
+                        for (int j = 0; j <= index.Value; j++)
+                        {
+                            list2.Add(ScoringMatrices.BLOSUM62(_s1[i], _s2[j]));
+                        }
+                    }
+                    list.Add((Math.Abs(index.Key - index.Value) * -_gapPenalty) + list2.Max());
+                }
+
                 if (list.Any())
                 {
                     count = list.Max();
-                    morePairs.Add(index, count);
                 }
-
+                morePairs.Add(index, count);
                 return count;
             }
         }

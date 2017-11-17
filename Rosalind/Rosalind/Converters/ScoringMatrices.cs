@@ -54,7 +54,8 @@ namespace Rosalind.Converters
 
         public static int BLOSUM62(char a, char b)
         {
-            return Convert.ToInt32(_matrix[a.ToString() + b.ToString()]);
+            int result = Convert.ToInt32(_matrix[a.ToString() + b.ToString()]);
+            return result;
         }
     }
 }
