@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Rosalind.Converters
 {
@@ -27,6 +28,17 @@ namespace Rosalind.Converters
         public static string ConvertCodon(this string codon)
         {
             return _codons[codon];
+        }
+
+        public static int NumberOfProteinSources(this char c)
+        {
+            int result = _codons.Values.Count(v => v.Equals("Stop") == false && v[0] == c);
+            return result == 0 ? 1 : result;
+        }
+
+        public static int NumberOfStops()
+        {
+            return _codons.Values.Count(v => v.Equals("Stop"));
         }
     }
 }

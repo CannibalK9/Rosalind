@@ -21,7 +21,7 @@ namespace Rosalind.Converters
                         dnaStrings.Add(id, dnaString);
                         dnaString = "";
                     }
-                    id = s;
+                    id = s.Substring(1);
                 }
                 else
                 {
