@@ -16,39 +16,34 @@ namespace Rosalind.Tier5
             string input = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).First().Value.Replace('T', 'U');
 
             FindProteinOpenFrames(proteins, input);
-            FindProteinOpenFrames(proteins, ComplementingAStrandOfDna.ReverseCompliment(input, true).Substring(2));
+            FindProteinOpenFrames(proteins, input.Substring(1));
+            FindProteinOpenFrames(proteins, input.Substring(2));
 
-            proteins.ForEach(p => Console.WriteLine(p.Protein));
+            input = ComplementingAStrandOfDna.ReverseCompliment(input, true);
+
+            FindProteinOpenFrames(proteins, input);
+            FindProteinOpenFrames(proteins, input.Substring(1));
+            FindProteinOpenFrames(proteins, input.Substring(2));
+
+            proteins.Select(p => p.Protein).Distinct().ToList().ForEach(p => Console.WriteLine(p));
         }
 
         private void FindProteinOpenFrames(List<ProteinString> proteins, string input)
         {
-            bool hasStarted = false;
-
-            for (int i = 0; i < input.Length - 2; i++)
+            for (int i = 0; i < input.Length - (input.Length % 3) - 2; i += 3)
             {
                 string protein = (input[i].ToString() + input[i + 1].ToString() + input[i + 2].ToString()).ConvertCodon();
 
-                if (hasStarted == false)
+                if (protein == "Stop")
                 {
-                    if (protein == "M")
-                        hasStarted = true;
+                    proteins.ForEach(p => p.CanWrite = false);
                 }
-                if (hasStarted)
+                else
                 {
-                    i += 2;
-                    if (protein == "Stop")
-                    {
-                        proteins.ForEach(p => p.CanWrite = false);
-                        hasStarted = false;
-                    }
-                    else
-                    {
-                        proteins.Where(p => p.CanWrite).ToList().ForEach(p => p.Protein += protein);
+                    proteins.Where(p => p.CanWrite).ToList().ForEach(p => p.Protein += protein);
 
-                        if (protein == "M")
-                            proteins.Add(new ProteinString { Protein = protein, CanWrite = true });
-                    }
+                    if (protein == "M")
+                        proteins.Add(new ProteinString { Protein = protein, CanWrite = true });
                 }
             }
             proteins.RemoveAll(p => p.CanWrite);

@@ -64,11 +64,13 @@
     <Compile Include="Tier5\FindingASharedMotif.cs" />
     <Compile Include="Tier5\IndependentAlleles.cs" />
     <Compile Include="Tier5\InferringMRnaFromProtein.cs" />
+    <Compile Include="Tier5\LocatingRestrictionSites.cs" />
     <Compile Include="Tier5\MortalFibonacciRabbits.cs" />
     <Compile Include="Tier5\OpenReadingFrames.cs" />
     <Compile Include="Tier5\OverlapGraphs.cs" />
     <Compile Include="Tier5\RnaSplicing.cs" />
     <Compile Include="Tier6\FindingASplicedMotif.cs" />
+    <Compile Include="Tier6\PerfectMatchingAndRnaSecondaryStructures.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotif.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative2.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative.cs" />
