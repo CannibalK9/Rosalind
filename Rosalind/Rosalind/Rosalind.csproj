@@ -58,12 +58,14 @@
     <Compile Include="Tier4\TranslatingRnaIntoProtein.cs" />
     <Compile Include="Tier5\CalculatingExpectedOffspring.cs" />
     <Compile Include="Tier5\CalculatingProteinMass.cs" />
+    <Compile Include="Tier5\ConcensusAndProfile.cs" />
     <Compile Include="Tier5\EnumeratingGeneOrders.cs" />
     <Compile Include="Tier5\FindingAProteinMotif.cs" />
     <Compile Include="Tier5\FindingASharedMotif.cs" />
     <Compile Include="Tier5\IndependentAlleles.cs" />
     <Compile Include="Tier5\InferringMRnaFromProtein.cs" />
     <Compile Include="Tier5\MortalFibonacciRabbits.cs" />
+    <Compile Include="Tier5\OpenReadingFrames.cs" />
     <Compile Include="Tier5\OverlapGraphs.cs" />
     <Compile Include="Tier5\RnaSplicing.cs" />
     <Compile Include="Tier6\FindingASplicedMotif.cs" />

@@ -23,19 +23,19 @@ namespace Rosalind.Tier5
                         .Split('\n')
                         .Where(s => s.StartsWith(">") == false));
 
-                    MatchCollection matches = regex.Matches(dnaString);
+                    var matches = new List<Match>();
 
-                    if (matches.Count > 0)
+                    Match matchObj = regex.Match(dnaString);
+                    while (matchObj.Success)
+                    {
+                        matches.Add(matchObj);
+                        matchObj = regex.Match(dnaString, matchObj.Index + 1);
+                    }
+
+                    if (matches.Any())
                     {
                         Console.WriteLine(line);
-
-                        var matchCollection = new List<Match>();
-                        foreach (Match match in matches)
-                        {
-                            matchCollection.Add(match);
-                        }
-
-                        Console.WriteLine(string.Join(" ", matchCollection.Select(m => m.Index + 1)));
+                        Console.WriteLine(string.Join(" ", matches.Select(m => m.Index + 1)));
                     }
                 }
             }

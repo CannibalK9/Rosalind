@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Rosalind
 {
@@ -12,24 +10,37 @@ namespace Rosalind
 
         public ComplementingAStrandOfDna(string input)
         {
-            foreach(char c in input.Reverse())
+            Console.WriteLine(ReverseCompliment(input, false));
+        }
+
+        public static string ReverseCompliment(string input, bool isRna)
+        {
+            var sb = new StringBuilder();
+
+            foreach (char c in input.Reverse())
             {
-                switch(c)
+                switch (c)
                 {
                     case 'A':
-                        Console.Write('T');
+                        if (isRna)
+                            sb.Append('U');
+                        else
+                            sb.Append('T');
                         break;
                     case 'T':
-                        Console.Write('A');
+                    case 'U':
+                        sb.Append('A');
                         break;
                     case 'G':
-                        Console.Write('C');
+                        sb.Append('C');
                         break;
                     case 'C':
-                        Console.Write('G');
+                        sb.Append('G');
                         break;
                 }
             }
+
+            return sb.ToString();
         }
     }
 }
