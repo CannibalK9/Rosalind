@@ -71,6 +71,7 @@
     <Compile Include="Tier5\RnaSplicing.cs" />
     <Compile Include="Tier6\FindingASplicedMotif.cs" />
     <Compile Include="Tier6\PerfectMatchingAndRnaSecondaryStructures.cs" />
+    <Compile Include="Tier6\PerfectMatchingAndRnaSecondaryStructuresAlternative.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotif.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative2.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative.cs" />
