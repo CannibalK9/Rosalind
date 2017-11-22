@@ -14,7 +14,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
-            new PerfectMatchingAndRnaSecondaryStructuresAlternative();
+            new PartialPermutations(21, 7);
             Console.ReadKey();
         }
     }
