@@ -14,7 +14,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
-            new PartialPermutations(21, 7);
+            new LongestIncreasingSubsequence();
             Console.ReadKey();
         }
     }
