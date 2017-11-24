@@ -81,6 +81,8 @@
     <Compile Include="Tier7\CatalanNumbersAndRnaSecondaryStructures.cs" />
     <Compile Include="Tier7\CountingPhylogeneticAncestors.cs" />
     <Compile Include="Tier7\CountingSubsets.cs" />
+    <Compile Include="Tier7\CreatingADistanceMatrix.cs" />
+    <Compile Include="Tier7\ErrorCorrectionInReads.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotif.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative2.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative.cs" />
@@ -91,6 +93,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tier1-3\TranscribingDnaIntoRna.cs" />
+    <Compile Include="Tier7\ReversalDistance.cs" />
+    <Compile Include="Tier7\SpeedingUpMotifFinding.cs" />
     <Compile Include="Tier8\EditDistance.cs" />
     <Compile Include="Tier8\InterleavingTwoMotifs.cs" />
     <Compile Include="Tier8\KMerComposition.cs" />
