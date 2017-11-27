@@ -99,8 +99,12 @@
     <Compile Include="Tier8\DistancesInTrees.cs" />
     <Compile Include="Tier8\EditDistance.cs" />
     <Compile Include="Tier8\InterleavingTwoMotifs.cs" />
+    <Compile Include="Tier8\IntroductionToAlternativeSplicing.cs" />
+    <Compile Include="Tier8\IntroductionToSetOperations.cs" />
     <Compile Include="Tier8\KMerComposition.cs" />
+    <Compile Include="Tier8\MotzkinNumbersAndRnaSecondaryStructures.cs" />
     <Compile Include="Tier9\EditDistanceAlignment.cs" />
+    <Compile Include="Tier9\NewickFormatWithEdgeWeights.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
