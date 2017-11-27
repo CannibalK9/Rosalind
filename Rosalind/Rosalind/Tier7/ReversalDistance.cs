@@ -13,44 +13,77 @@ namespace Rosalind.Tier7
         {
             string[] lines = File.ReadAllLines(@"C:\code\dataset.txt");
 
-            for (int i = 0; i < lines.Length; i+=3)
+            for (int i = 0; i < lines.Length; i += 3)
             {
                 var counts = new List<int>();
-                int[] arr1 = lines[i].Split(' ').Select(c=>Convert.ToInt32(c)).ToArray();
-                int[] arr2 = lines[i+1].Split(' ').Select(c => Convert.ToInt32(c)).ToArray();
+                int[] arr1 = lines[i].Split(' ').Select(c => Convert.ToInt32(c)).ToArray();
+                int[] arr2 = lines[i + 1].Split(' ').Select(c => Convert.ToInt32(c)).ToArray();
 
-                CalculateReversalDistance(counts, arr1, arr2);
+                CalculateReversalDistance(counts, new List<KeyValuePair<int, int>>(), arr1, arr2, 0);
 
                 Console.Write(counts.Min() + " ");
             }
         }
 
-        private int CalculateReversalDistance(List<int> counts, int[] arr1, int[] arr2)
+        private void CalculateReversalDistance(List<int> counts, List<KeyValuePair<int, int>> swaps, int[] arr1, int[] arr2, int count)
         {
-            int count = 0;
+            int[] newArr1 = (int[])arr1.Clone();
 
             for (int i = 0; i < arr1.Length; i++)
             {
-                if (arr1[i] == arr2[i])
-                    continue;
-
-                int temp = 0;
-
                 for (int j = 0; j < arr1.Length; j++)
                 {
-                    if (arr2[j] == arr1[i])
+                    if (i != j && newArr1[i] == arr2[j] && newArr1[j] == arr2[i])
                     {
-                        temp = arr1[i];
-                        arr1[i] = arr1[j];
-                        arr1[j] = temp;
-                        count += 1 + CalculateReversalDistance(counts, arr1, arr2);
-                        counts.Add(count);
+                        int temp = newArr1[i];
+                        newArr1[i] = newArr1[j];
+                        newArr1[j] = temp;
+                        count++;
                     }
                 }
-
             }
 
-            return count;
+            int differences = 0;
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (newArr1[i] != arr2[i])
+                    differences++;
+            }
+
+            if (differences == 0)
+            {
+                counts.Add(count);
+                return;
+            }
+
+            int prediction = count + (differences + 1) / 2;
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (newArr1[i] == arr2[i])
+                    continue;
+
+                for (int j = 0; j < newArr1.Length; j++)
+                {
+                    if (prediction >= newArr1.Length || (counts.Any() && prediction >= counts.Min()))
+                        return;
+
+                    int[] newerarr1 = (int[])newArr1.Clone();
+
+                    var thisSwap = new KeyValuePair<int, int>(Math.Min(i, j), Math.Max(i, j));
+                    if (i == j || (newerarr1[i] != arr2[j] && newerarr1[j] != arr2[i]) || swaps.Contains(thisSwap))
+                        continue;
+
+                    swaps.RemoveAll(s => s.Key == thisSwap.Key || s.Key == thisSwap.Value || s.Value == thisSwap.Key || s.Value == thisSwap.Value);
+                    swaps.Add(thisSwap);
+
+                    int temp = newerarr1[i];
+                    newerarr1[i] = newerarr1[j];
+                    newerarr1[j] = temp;
+                    CalculateReversalDistance(counts, swaps, newerarr1, arr2, count + 1);
+                }
+            }
+
         }
     }
 }
