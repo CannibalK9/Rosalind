@@ -19,43 +19,55 @@ namespace Rosalind.Tier7
             {
                 List<int> arr1 = lines[i].Split(' ').Select(c => Convert.ToInt32(c)).ToList();
                 List<int> arr2 = lines[i + 1].Split(' ').Select(c => Convert.ToInt32(c)).ToList();
-                int result = 0;
+                List<KeyValuePair<int, int>> result = null;
 
                 int intDifferences = GetDifferences(arr1, arr2);
                 if (intDifferences != 0)
-                    result = CalculateReversalDistance(new List<List<int>> { arr1 }, arr2, 0, intDifferences);
+                    result = CalculateReversalDistance(
+                        new List<KeyValuePair<List<int>, List<KeyValuePair<int, int>>>> { new KeyValuePair<List<int>, List<KeyValuePair<int, int>>>(arr1, new List<KeyValuePair<int, int>>()) },
+                        arr2,
+                        0,
+                        intDifferences);
 
-                Console.Write(result + " ");
+                Console.WriteLine(result.Count);
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item.Key + " " + item.Value);
+                }
             }
         }
 
-        private int CalculateReversalDistance(List<List<int>> stuff, List<int> arr2, int count, int intDifference)
+        private List<KeyValuePair<int, int>> CalculateReversalDistance(List<KeyValuePair<List<int>, List<KeyValuePair<int, int>>>> stuff, List<int> arr2, int count, int intDifference)
         {
-            List<List<int>> allOfEm = new List<List<int>>();
+            var allOfEm = new List<KeyValuePair<List<int>, List<KeyValuePair<int, int>>>>();
             count++;
-            int thisDiffereces = intDifference;
+            int thisDifferences = intDifference;
 
             foreach (var item in stuff)
             {
-                for (int i = 0; i < item.Count - 1; i++)
+                for (int i = 0; i < item.Key.Count - 1; i++)
                 {
-                    for (int j = i + 1; j < item.Count; j++)
+                    for (int j = i + 1; j < item.Key.Count; j++)
                     {
-                        var new1 = Reverse(item, i, j);
+                        var new1 = Reverse(item.Key, i, j);
                         int differences = GetDifferences(new1, arr2);
                         if (differences == 0)
-                            return count;
-
-                        if (differences <= thisDiffereces + 2)
                         {
-                            if (differences < thisDiffereces)
-                                thisDiffereces = differences;
-                            allOfEm.Add(new1);
+                            item.Value.Add(new KeyValuePair<int, int>(i + 1, j + 1));
+                            return item.Value;
+                        }
+                        if (differences <= thisDifferences + 2)
+                        {
+                            if (differences < thisDifferences)
+                                thisDifferences = differences;
+                            var add = new List<KeyValuePair<int, int>>(item.Value);
+                            add.Add(new KeyValuePair<int, int>(i + 1, j + 1));
+                            allOfEm.Add(new KeyValuePair<List<int>, List<KeyValuePair<int, int>>>(new1, add));
                         }
                     }
                 }
             }
-            return CalculateReversalDistance(allOfEm, arr2, count, thisDiffereces);
+            return CalculateReversalDistance(allOfEm, arr2, count, thisDifferences);
         }
 
         private List<int> Reverse(List<int> nums, int indexStart, int indexEnd)

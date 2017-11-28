@@ -45,6 +45,7 @@
     <Compile Include="Converters\DisplayPaths.cs" />
     <Compile Include="Converters\FASTAToDictionary.cs" />
     <Compile Include="Converters\MassTable.cs" />
+    <Compile Include="Converters\MonoisotopicMassTable.cs" />
     <Compile Include="Converters\RnaCodontoAA.cs" />
     <Compile Include="Converters\ScoringMatrices.cs" />
     <Compile Include="Tier1-3\ComplementingAStrandOfDna.cs" />
@@ -98,11 +99,15 @@
     <Compile Include="Tier7\SpeedingUpMotifFinding.cs" />
     <Compile Include="Tier8\DistancesInTrees.cs" />
     <Compile Include="Tier8\EditDistance.cs" />
+    <Compile Include="Tier8\InferringProteinFromSpectrum.cs" />
     <Compile Include="Tier8\InterleavingTwoMotifs.cs" />
     <Compile Include="Tier8\IntroductionToAlternativeSplicing.cs" />
+    <Compile Include="Tier8\IntroductionToPatternMatching.cs" />
     <Compile Include="Tier8\IntroductionToSetOperations.cs" />
     <Compile Include="Tier8\KMerComposition.cs" />
     <Compile Include="Tier8\MotzkinNumbersAndRnaSecondaryStructures.cs" />
+    <Compile Include="Tier8\SortingByReversals.cs" />
+    <Compile Include="Tier9\CreatingACharacterTable.cs" />
     <Compile Include="Tier9\EditDistanceAlignment.cs" />
     <Compile Include="Tier9\NewickFormatWithEdgeWeights.cs" />
   </ItemGroup>
