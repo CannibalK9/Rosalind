@@ -111,6 +111,7 @@
     <Compile Include="Tier9\ConstructingADeBruijnGraph.cs" />
     <Compile Include="Tier9\CreatingACharacterTable.cs" />
     <Compile Include="Tier9\EditDistanceAlignment.cs" />
+    <Compile Include="Tier9\FindingTheLongestMultipleRepeat.cs" />
     <Compile Include="Tier9\InferringPeptideFromFullSpectrum.cs" />
     <Compile Include="Tier9\NewickFormatWithEdgeWeights.cs" />
   </ItemGroup>

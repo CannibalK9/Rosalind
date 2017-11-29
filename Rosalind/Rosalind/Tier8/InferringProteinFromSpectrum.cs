@@ -18,7 +18,11 @@ namespace Rosalind.Tier8
             foreach (double input in inputs)
             {
                 if (current != 0)
-                    Console.Write((input - current).GetCharFromMass());
+                {
+                    char c = '\0';
+                    if ((input - current).GetCharFromMass(out c))
+                        Console.Write(c);
+                }
                 current = input;
             }
         }
