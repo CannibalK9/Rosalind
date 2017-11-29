@@ -34,5 +34,11 @@ namespace Rosalind.Converters
                 ? _monoisotopic[c]
                 : 0;
         }
+
+        public static char GetCharFromMass(this double mass)
+        {
+            mass = Math.Round(mass, 4);
+            return _table.First(t => Math.Round(t.Value, 4) == mass).Key;
+        }
     }
 }

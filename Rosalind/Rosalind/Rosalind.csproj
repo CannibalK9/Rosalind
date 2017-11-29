@@ -45,7 +45,6 @@
     <Compile Include="Converters\DisplayPaths.cs" />
     <Compile Include="Converters\FASTAToDictionary.cs" />
     <Compile Include="Converters\MassTable.cs" />
-    <Compile Include="Converters\MonoisotopicMassTable.cs" />
     <Compile Include="Converters\NewickTree.cs" />
     <Compile Include="Converters\RnaCodontoAA.cs" />
     <Compile Include="Converters\ScoringMatrices.cs" />
@@ -108,8 +107,11 @@
     <Compile Include="Tier8\KMerComposition.cs" />
     <Compile Include="Tier8\MotzkinNumbersAndRnaSecondaryStructures.cs" />
     <Compile Include="Tier8\SortingByReversals.cs" />
+    <Compile Include="Tier9\ComparingSpectraWithTheSpectralConvolution.cs" />
+    <Compile Include="Tier9\ConstructingADeBruijnGraph.cs" />
     <Compile Include="Tier9\CreatingACharacterTable.cs" />
     <Compile Include="Tier9\EditDistanceAlignment.cs" />
+    <Compile Include="Tier9\InferringPeptideFromFullSpectrum.cs" />
     <Compile Include="Tier9\NewickFormatWithEdgeWeights.cs" />
   </ItemGroup>
   <ItemGroup>
