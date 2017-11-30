@@ -19,10 +19,31 @@ namespace Rosalind.Tier9
 
             for (int i = 2; i < inputs.Count; i++)
             {
-                edges.Add(new Edge(inputs[i].Replace("node", "").Split(' ').Select(n=>Convert.ToInt32(n)).ToArray()));
+                edges.Add(new Edge(inputs[i].Replace("node", "").Split(' ').Select(n => Convert.ToInt32(n)).ToArray()));
+            }
+            var orderedEdges = edges.OrderByDescending(e => e.Child);
+
+            var nodeChildren = new Dictionary<int, int>();
+
+            foreach (var edge in orderedEdges)
+            {
+                if (edges.Any(e => e.Parent == edge.Child))
+                {
+                    if (nodeChildren.ContainsKey(edge.Parent))
+                        nodeChildren[edge.Parent] += nodeChildren[edge.Child];
+                    else
+                        nodeChildren.Add(edge.Parent, nodeChildren[edge.Child]);
+                }
+                else
+                {
+                    if (nodeChildren.ContainsKey(edge.Parent))
+                        nodeChildren[edge.Parent] += 1;
+                    else
+                        nodeChildren.Add(edge.Parent, 1);
+                }
             }
 
-            List<int> repeatedSubstrings = edges.GroupBy(e => e.Parent).Where(g => g.Count() >= repeats).Select(g=>g.First().Parent).Where(i=> i != 1).ToList();
+            var repeatedSubstrings = nodeChildren.Where(n => n.Value >= repeats).Select(n => n.Key).ToList();
 
             foreach (int childNode in repeatedSubstrings)
             {

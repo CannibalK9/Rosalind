@@ -51,6 +51,7 @@
     <Compile Include="Tier1-3\ComplementingAStrandOfDna.cs" />
     <Compile Include="Tier1-3\CountingDnaNucleotides.cs" />
     <Compile Include="Tier10\CountingOptimalAlignments.cs" />
+    <Compile Include="Tier10\CountingUnrootedBinaryTrees.cs" />
     <Compile Include="Tier10\GlobalAlignmentWithScoringMatrix.cs" />
     <Compile Include="Tier4\CountingPointMutations.cs" />
     <Compile Include="Tier4\FindingAMotifInDna.cs" />
