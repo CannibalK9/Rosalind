@@ -42,17 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\CharacterTable.cs" />
     <Compile Include="Converters\DisplayPaths.cs" />
     <Compile Include="Converters\FASTAToDictionary.cs" />
     <Compile Include="Converters\MassTable.cs" />
     <Compile Include="Converters\NewickTree.cs" />
     <Compile Include="Converters\RnaCodontoAA.cs" />
     <Compile Include="Converters\ScoringMatrices.cs" />
+    <Compile Include="Converters\Trie.cs" />
     <Compile Include="Tier1-3\ComplementingAStrandOfDna.cs" />
     <Compile Include="Tier1-3\CountingDnaNucleotides.cs" />
     <Compile Include="Tier10\CountingOptimalAlignments.cs" />
     <Compile Include="Tier10\CountingUnrootedBinaryTrees.cs" />
+    <Compile Include="Tier10\CreatingACharacterTableFromGeneticStrings.cs" />
     <Compile Include="Tier10\GlobalAlignmentWithScoringMatrix.cs" />
+    <Compile Include="Tier10\Quartets.cs" />
     <Compile Include="Tier4\CountingPointMutations.cs" />
     <Compile Include="Tier4\FindingAMotifInDna.cs" />
     <Compile Include="Tier4\MendelsFirstLaw.cs" />

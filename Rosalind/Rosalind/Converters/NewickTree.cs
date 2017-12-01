@@ -8,7 +8,7 @@ namespace Rosalind.Converters
 {
     public class NewickTree
     {
-        public List<NewickNode> Nodes = new List<NewickNode>();
+        public List<TrieNode> Nodes = new List<TrieNode>();
 
         public NewickTree(string tree)
         {
@@ -57,14 +57,14 @@ namespace Rosalind.Converters
                 int nodeValue = Nodes.Count;
                 bool isLeaf = neighbour.Contains(')') == false;
                 string name = isLeaf ? neighbour : neighbour.Substring(neighbour.LastIndexOf(')') + 1);
-                Nodes.Add(new NewickNode(nodeValue, parentValue, name, isLeaf));
+                Nodes.Add(new TrieNode(nodeValue, parentValue, name, isLeaf));
                 if (isLeaf == false)
                     SplitNodes(neighbour.Substring(1, neighbour.Length - (2 + name.Length)), nodeValue);
             }
         }
     }
 
-    public struct NewickNode
+    public struct TrieNode
     {
         public int Value;
         public int ParentValue;
@@ -72,7 +72,7 @@ namespace Rosalind.Converters
         public bool HasName;
         public bool IsLeaf;
 
-        public NewickNode(int value, int parentValue, string name, bool isLeaf)
+        public TrieNode(int value, int parentValue, string name, bool isLeaf)
         {
             Value = value;
             ParentValue = parentValue;

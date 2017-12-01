@@ -14,7 +14,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
-            new FindingTheLongestMultipleRepeat();
+            new CreatingACharacterTableFromGeneticStrings();
             Console.ReadKey();
         }
     }
