@@ -14,7 +14,7 @@ namespace Rosalind
     {
         static void Main(string[] args)
         {
-            new CreatingACharacterTableFromGeneticStrings();
+            new UsingTheSpectrumGraphToInferPeptides();
             Console.ReadKey();
         }
     }

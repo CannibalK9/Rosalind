@@ -41,9 +41,9 @@ namespace Rosalind.Converters
 
         public static bool GetCharFromMass(this double mass, out char c)
         {
-            mass = Math.Round(mass, 5);
-            bool contains = Table.ContainsValue(mass);
-            c = contains ? Table.First(t => t.Value == mass).Key : '\0';
+            mass = Math.Round(mass, 4);
+            bool contains = Table.Values.Select(v=> Math.Round(v, 4)).Contains(mass);
+            c = contains ? Table.First(t => Math.Round(t.Value, 4) == mass).Key : '\0';
             return contains;
         }
     }

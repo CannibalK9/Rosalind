@@ -1,10 +1,7 @@
 ﻿using Rosalind.Converters;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rosalind.Tier10
 {
@@ -14,6 +11,8 @@ namespace Rosalind.Tier10
 
         public CreatingACharacterTableFromGeneticStrings()
         {
+            //This actually sorts the strings according to how they'd split if they were arranged like a trie
+
             List<string> inputs = File.ReadAllLines(@"C:\code\dataset.txt").ToList();
             Dictionary<KeyValuePair<int, int>, char> trie = Trie.GetTrie(inputs);
             var lexList = new List<string>();
@@ -46,13 +45,9 @@ namespace Rosalind.Tier10
                     nodes.Add(new TrieNode(item.Key.Value, value, name.ToString(), true));
                     name++;
                 }
-                else if (neighbours == 2)
-                {
-                    nodes.Add(new TrieNode(item.Key.Value, value, "", false));
-                }
                 else
                 {
-                    nodes.Add(new TrieNode(item.Key.Value, value, "", true));
+                    nodes.Add(new TrieNode(item.Key.Value, value, "", neighbours != 2));
                 }
             }
 

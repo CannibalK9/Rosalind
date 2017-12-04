@@ -54,9 +54,14 @@
     <Compile Include="Tier1-3\CountingDnaNucleotides.cs" />
     <Compile Include="Tier10\CountingOptimalAlignments.cs" />
     <Compile Include="Tier10\CountingUnrootedBinaryTrees.cs" />
+    <Compile Include="Tier10\CreatingACharacterTableFromGeneticStringsActual.cs" />
+    <Compile Include="Tier10\CreatingACharacterTableFromGeneticStringsAlternative.cs" />
     <Compile Include="Tier10\CreatingACharacterTableFromGeneticStrings.cs" />
+    <Compile Include="Tier10\GenomeAssemblyWithPerfectCoverage.cs" />
     <Compile Include="Tier10\GlobalAlignmentWithScoringMatrix.cs" />
+    <Compile Include="Tier10\MatchingASpectrumToAProtein.cs" />
     <Compile Include="Tier10\Quartets.cs" />
+    <Compile Include="Tier10\UsingTheSpectrumGraphToInferPeptides.cs" />
     <Compile Include="Tier4\CountingPointMutations.cs" />
     <Compile Include="Tier4\FindingAMotifInDna.cs" />
     <Compile Include="Tier4\MendelsFirstLaw.cs" />
