@@ -14,7 +14,7 @@ namespace Rosalind.Tier10
             //This actually sorts the strings according to how they'd split if they were arranged like a trie
 
             List<string> inputs = File.ReadAllLines(@"C:\code\dataset.txt").ToList();
-            Dictionary<KeyValuePair<int, int>, char> trie = Trie.GetTrie(inputs);
+            Dictionary<KeyValuePair<int, int>, string> trie = Trie.GetTrie(inputs);
             var lexList = new List<string>();
 
             for (int i = 0; i < inputs.Count; i++)

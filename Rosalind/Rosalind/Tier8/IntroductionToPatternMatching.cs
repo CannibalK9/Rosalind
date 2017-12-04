@@ -13,7 +13,7 @@ namespace Rosalind.Tier8
         {
             IEnumerable<string> inputs = File.ReadAllLines(@"C:\code\dataset.txt");
 
-            Dictionary<KeyValuePair<int, int>, char> trie = Trie.GetTrie(inputs);
+            Dictionary<KeyValuePair<int, int>, string> trie = Trie.GetTrie(inputs);
 
             foreach (var item in trie)
             {

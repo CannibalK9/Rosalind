@@ -57,6 +57,7 @@
     <Compile Include="Tier10\CreatingACharacterTableFromGeneticStringsActual.cs" />
     <Compile Include="Tier10\CreatingACharacterTableFromGeneticStringsAlternative.cs" />
     <Compile Include="Tier10\CreatingACharacterTableFromGeneticStrings.cs" />
+    <Compile Include="Tier10\EncodingSuffixTrees.cs" />
     <Compile Include="Tier10\GenomeAssemblyWithPerfectCoverage.cs" />
     <Compile Include="Tier10\GlobalAlignmentWithScoringMatrix.cs" />
     <Compile Include="Tier10\MatchingASpectrumToAProtein.cs" />
