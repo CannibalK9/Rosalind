@@ -99,6 +99,7 @@
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative2.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifAlternative.cs" />
     <Compile Include="Tier7\FindingASharedSplicedMotifStolen.cs" />
+    <Compile Include="Tier7\MatchingRandomMotifs.cs" />
     <Compile Include="Tier7\MaximumMatchingsAndRnaSecondaryStructures.cs" />
     <Compile Include="Tier7\OrderingStringsOfVaryingLengthLexicographically.cs" />
     <Compile Include="Tier6\EnumeratingKMersLexicographically.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Tier7\SpeedingUpMotifFinding.cs" />
     <Compile Include="Tier8\DistancesInTrees.cs" />
     <Compile Include="Tier8\EditDistance.cs" />
+    <Compile Include="Tier8\ExpectedNumberOfRestrictionSites.cs" />
     <Compile Include="Tier8\InferringProteinFromSpectrum.cs" />
     <Compile Include="Tier8\InterleavingTwoMotifs.cs" />
     <Compile Include="Tier8\IntroductionToAlternativeSplicing.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="Tier9\CreatingACharacterTable.cs" />
     <Compile Include="Tier9\EditDistanceAlignment.cs" />
     <Compile Include="Tier9\FindingTheLongestMultipleRepeat.cs" />
+    <Compile Include="Tier9\IndependentSegregationOfChromosomes.cs" />
     <Compile Include="Tier9\InferringPeptideFromFullSpectrum.cs" />
     <Compile Include="Tier9\NewickFormatWithEdgeWeights.cs" />
   </ItemGroup>
