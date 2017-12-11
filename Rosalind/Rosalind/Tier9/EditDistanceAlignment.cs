@@ -12,7 +12,7 @@ namespace Rosalind.Tier9
 
         public EditDistanceAlignment()
         {
-            List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
+            List<string> dnaStrings = File.ReadAllLines(@"C:\code\dataset.txt").ToList();
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
 
             var s1Chars = new List<char>(dnaStrings[0]);

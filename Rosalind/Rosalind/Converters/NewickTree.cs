@@ -64,7 +64,7 @@ namespace Rosalind.Converters
         }
     }
 
-    public struct TrieNode
+    public class TrieNode
     {
         public int Value;
         public int ParentValue;

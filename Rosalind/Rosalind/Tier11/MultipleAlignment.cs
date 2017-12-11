@@ -1,28 +1,34 @@
-﻿using System;
+﻿using Rosalind.Converters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Rosalind.Tier8
+namespace Rosalind.Tier11
 {
-    public class InterleavingTwoMotifs
+    public class MultipleAlignment
     {
-        //http://rosalind.info/problems/scsp/
+        //http://rosalind.info/problems/mult/
 
-        public InterleavingTwoMotifs()
+        public MultipleAlignment()
         {
-            List<string> dnaStrings = File.ReadAllLines(@"C:\code\dataset.txt").ToList();
+            List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
 
             var s1Chars = new List<char>(dnaStrings[0]);
             var s2Chars = new List<char>(dnaStrings[1]);
 
-            int changeCount = GenerateAlignmentPathPairs(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
+            foreach (var item in dnaStrings)
+            {
+                foreach (var item2 in dnaStrings)
+                {
+                    int changeCount = GenerateAlignmentPathPairs(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
+                    AddHyphens(s1Chars, s2Chars, pairs, pairs.Last().Key);
+                    Console.WriteLine(string.Join("", s1Chars));
+                }
+            }
 
-            AddHyphens(s1Chars, s2Chars, pairs, pairs.Last().Key);
-
-            Console.WriteLine(changeCount);
-            Console.WriteLine(string.Join("", s1Chars));
+            //Console.WriteLine(changeCount);
             Console.WriteLine(string.Join("", s2Chars));
         }
 
@@ -57,9 +63,8 @@ namespace Rosalind.Tier8
                 if (indexValue.Value == 1)
                     c1.Insert(index.Key + 1, '-');
                 else if (indexValue.Value == 2)
-                {
                     c2.Insert(index.Value + 1, '-');
-                }
+
                 AddHyphens(c1, c2, pairs, up);
             }
             else if (leftValue.Key != 10000)
@@ -67,9 +72,8 @@ namespace Rosalind.Tier8
                 if (indexValue.Value == 1)
                     c1.Insert(index.Key + 1, '-');
                 else if (indexValue.Value == 2)
-                {
                     c2.Insert(index.Value + 1, '-');
-                }
+
                 AddHyphens(c1, c2, pairs, left);
             }
         }
@@ -80,7 +84,7 @@ namespace Rosalind.Tier8
 
             if (s1Length < 0 || s2Length < 0)
             {
-                return Math.Abs(s1Length - s2Length);
+                return Math.Abs(s1Length - s2Length) * -1;
             }
             else if (pairs.ContainsKey(pair))
             {
@@ -88,19 +92,14 @@ namespace Rosalind.Tier8
             }
             else
             {
-                int changeCount = 5000;
+                int s1Count = (-1) + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length, pairs);
+                int s2Count = (-1) + GenerateAlignmentPathPairs(s1, s2, s1Length, s2Length - 1, pairs);
+                int changeCount = s1[s1Length] == s2[s2Length] ? 0 : -1 + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length - 1, pairs);
 
-                int s1Count = (1) + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length, pairs);
-                int s2Count = (1) + GenerateAlignmentPathPairs(s1, s2, s1Length, s2Length - 1, pairs);
-                if (s1[s1Length] == s2[s2Length])
-                     changeCount = (-1) + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length - 1, pairs);
-                //else
-                    //changeCount -= 50;
-
-                int d = Math.Min(s1Count, Math.Min(s2Count, changeCount));
+                int d = Math.Max(s1Count, Math.Max(s2Count, changeCount));
                 int value = 0;
 
-                if (s1[s1Length] != s2[s2Length])
+                if (changeCount >= s1Count || changeCount >= s2Count)
                     value = s1Count > s2Count ? 1 : 2;
 
                 pairs.Add(pair, new KeyValuePair<int, int>(d, value));

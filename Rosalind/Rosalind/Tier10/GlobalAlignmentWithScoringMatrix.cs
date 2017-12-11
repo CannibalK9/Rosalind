@@ -1,5 +1,4 @@
 ﻿using Rosalind.Converters;
-using Rosalind.Tier9;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,73 +14,91 @@ namespace Rosalind.Tier10
         {
             List<string> dnaStrings = FASTAToDictionary.Convert(File.ReadAllLines(@"C:\code\dataset.txt").ToList()).Values.ToList();
             var pairs = new Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>>();
-            _s1 = dnaStrings[0];
-            _s2 = dnaStrings[1];
-            int changeCount = EditDistanceAlignment.GenerateAlignmentPathPairs(_s1, _s2, _s1.Length - 1, _s2.Length - 1, pairs);
 
-            int count = CountPaths(pairs, pairs.Last().Key, new Dictionary<KeyValuePair<int, int>, int>());
-            Console.WriteLine(count);
+            var s1Chars = new List<char>(dnaStrings[0]);
+            var s2Chars = new List<char>(dnaStrings[1]);
+
+            int changeCount = GenerateAlignmentPathPairs(dnaStrings[0], dnaStrings[1], dnaStrings[0].Length - 1, dnaStrings[1].Length - 1, pairs);
+
+            AddHyphens(s1Chars, s2Chars, pairs, pairs.Last().Key);
+
+            Console.WriteLine(changeCount);
+            Console.WriteLine(string.Join("", s1Chars));
+            Console.WriteLine(string.Join("", s2Chars));
         }
 
-        private string _s1;
-        private string _s2;
-        private const int _gapPenalty = 5;
-
-        private int CountPaths(Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index, Dictionary<KeyValuePair<int, int>, int> morePairs)
+        private void AddHyphens(List<char> c1, List<char> c2, Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs, KeyValuePair<int, int> index)
         {
-            if (morePairs.ContainsKey(index))
+            if (index.Key == 0 && index.Value == 0)
             {
-                return morePairs[index];
+                if (c1.Count > c2.Count)
+                    c2.Insert(0, '-');
+                else if (c1.Count < c2.Count)
+                    c1.Insert(0, '-');
+
+                return;
+            }
+
+            var diag = new KeyValuePair<int, int>(index.Key - 1, index.Value - 1);
+            var up = new KeyValuePair<int, int>(index.Key, index.Value - 1);
+            var left = new KeyValuePair<int, int>(index.Key - 1, index.Value);
+
+            var diagValue = pairs.Keys.Contains(diag) ? pairs[diag] : new KeyValuePair<int, int>(10000, 10000);
+            var upValue = pairs.Keys.Contains(up) ? pairs[up] : new KeyValuePair<int, int>(10000, 10000);
+            var leftValue = pairs.Keys.Contains(left) ? pairs[left] : new KeyValuePair<int, int>(10000, 10000);
+
+            var indexValue = pairs[index];
+
+            if (diagValue.Key != 10000 && diagValue.Key <= upValue.Key && diagValue.Key <= leftValue.Key)
+            {
+                AddHyphens(c1, c2, pairs, diag);
+            }
+            else if (upValue.Key != 10000 && upValue.Key <= leftValue.Key)
+            {
+                if (indexValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (indexValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, up);
+            }
+            else if (leftValue.Key != 10000)
+            {
+                if (indexValue.Value == 1)
+                    c1.Insert(index.Key + 1, '-');
+                else if (indexValue.Value == 2)
+                    c2.Insert(index.Value + 1, '-');
+
+                AddHyphens(c1, c2, pairs, left);
+            }
+        }
+
+        public static int GenerateAlignmentPathPairs(string s1, string s2, int s1Length, int s2Length, Dictionary<KeyValuePair<int, int>, KeyValuePair<int, int>> pairs)
+        {
+            var pair = new KeyValuePair<int, int>(s1Length, s2Length);
+
+            if (s1Length < 0 || s2Length < 0)
+            {
+                return Math.Abs(s1Length - s2Length) * -5;
+            }
+            else if (pairs.ContainsKey(pair))
+            {
+                return pairs[pair].Key;
             }
             else
             {
-                int currentIndex = pairs[index].Key;
-                int currentValue = pairs[index].Value;
+                int s1Count = (-5) + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length, pairs);
+                int s2Count = (-5) + GenerateAlignmentPathPairs(s1, s2, s1Length, s2Length - 1, pairs);
+                int changeCount = ScoringMatrices.BLOSUM62(s1[s1Length], s2[s2Length]) + GenerateAlignmentPathPairs(s1, s2, s1Length - 1, s2Length - 1, pairs);
 
-                var diag = new KeyValuePair<int, int>(index.Key - 1, index.Value - 1);
-                var up = new KeyValuePair<int, int>(index.Key, index.Value - 1);
-                var left = new KeyValuePair<int, int>(index.Key - 1, index.Value);
+                int d = Math.Max(s1Count, Math.Max(s2Count, changeCount));
+                int value = 0;
 
-                var diagValue = pairs.Keys.Contains(diag) ? pairs[diag] : new KeyValuePair<int, int>(10000, 10000);
-                var upValue = pairs.Keys.Contains(up) ? pairs[up] : new KeyValuePair<int, int>(10000, 10000);
-                var leftValue = pairs.Keys.Contains(left) ? pairs[left] : new KeyValuePair<int, int>(10000, 10000);
+                if (changeCount >= s1Count || changeCount >= s2Count)
+                    value = s1Count > s2Count ? 1 : 2;
 
-                var list = new List<int>();
-
-                if ((diagValue.Key == currentIndex - 1 && _s1[index.Key] != _s2[index.Value]) || (diagValue.Key == currentIndex && _s1[index.Key] == _s2[index.Value]))
-                {
-                    list.Add(ScoringMatrices.BLOSUM62(_s1[index.Key], _s2[index.Value]) + CountPaths(pairs, diag, morePairs));
-                }
-                if (upValue.Key == currentIndex - 1 && currentValue != 0)
-                {
-                    list.Add(-_gapPenalty + CountPaths(pairs, up, morePairs));
-                }
-                if (leftValue.Key == currentIndex - 1 && currentValue != 0)
-                {
-                    list.Add(-_gapPenalty + CountPaths(pairs, left, morePairs));
-                }
-
-                int count = 0;
-                
-                if (index.Key == 0 || index.Value == 0)
-                {
-                    List<int> list2 = new List<int>();
-                    for (int i = 0; i <= index.Key; i++)
-                    {
-                        for (int j = 0; j <= index.Value; j++)
-                        {
-                            list2.Add(ScoringMatrices.BLOSUM62(_s1[i], _s2[j]));
-                        }
-                    }
-                    list.Add((Math.Abs(index.Key - index.Value) * -_gapPenalty) + list2.Max());
-                }
-
-                if (list.Any())
-                {
-                    count = list.Max();
-                }
-                morePairs.Add(index, count);
-                return count;
+                pairs.Add(pair, new KeyValuePair<int, int>(d, value));
+                return d;
             }
         }
     }

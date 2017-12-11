@@ -63,6 +63,8 @@
     <Compile Include="Tier10\MatchingASpectrumToAProtein.cs" />
     <Compile Include="Tier10\Quartets.cs" />
     <Compile Include="Tier10\UsingTheSpectrumGraphToInferPeptides.cs" />
+    <Compile Include="Tier11\InferringGenotypeFromAPedigree.cs" />
+    <Compile Include="Tier11\MultipleAlignment.cs" />
     <Compile Include="Tier4\CountingPointMutations.cs" />
     <Compile Include="Tier4\FindingAMotifInDna.cs" />
     <Compile Include="Tier4\MendelsFirstLaw.cs" />
